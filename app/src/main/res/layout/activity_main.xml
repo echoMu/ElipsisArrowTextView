@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <com.echomu.elipsisarrowtextview.ElipsisArrowTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="20dp"
+        android:text="这一行文本是要最多显示两行的，超出的话会显示省略号，并且在末尾带上一个图标。这一行文本是最多两行的,这一行文本是最多两行的。"
+        app:arr_MaxLinesOnShrink="2"
+        android:lineSpacingMultiplier="1.4"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="#fff"/>
+
+</android.support.constraint.ConstraintLayout>
