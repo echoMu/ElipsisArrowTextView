@@ -5,13 +5,6 @@
         <attr name="arr_MaxLinesOnShrink" format="reference|integer" />
         <attr name="arr_EllipsisHint" format="reference|string" /><!--default is ..-->
         <attr name="arr_GapToExpandHint" format="reference|string" /><!--gap between "toExpandHint" and "trimmed text"-->
-        <attr name="arr_GapToShrinkHint" format="reference|string" /><!--gap between "toShrinkHint" and "trimmed text"-->
-        <attr name="arr_ToExpandHintShow" format="reference|boolean" /><!--if show "toExpandHint"-->
-        <attr name="arr_ToShrinkHintShow" format="reference|boolean" /><!--if show "toShrinkHint"-->
-        <attr name="arr_ToExpandHintColor" format="reference|color" /><!--text color of "toExpandHint"-->
-        <attr name="arr_ToShrinkHintColor" format="reference|color" /><!--text color of "toShrinkHint"-->
-        <attr name="arr_ToExpandHintColorBgPressed" format="reference|color" /><!--background color if "toExpandHint" pressed-->
-        <attr name="arr_ToShrinkHintColorBgPressed" format="reference|color" /><!--background color if "toShrinkHint" pressed-->
     </declare-styleable>
 
 </resources>

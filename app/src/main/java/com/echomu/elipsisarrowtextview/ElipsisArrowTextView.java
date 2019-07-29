@@ -31,25 +31,11 @@ public class ElipsisArrowTextView extends AppCompatTextView {
     private static final String CLASS_NAME_LISTENER_INFO = "android.view.View$ListenerInfo";
     private static final String ELLIPSIS_HINT = "...";
     private static final String GAP_TO_EXPAND_HINT = " ";
-    private static final String GAP_TO_SHRINK_HINT = " ";
     private static final int MAX_LINES_ON_SHRINK = 3;
-    private static final int TO_EXPAND_HINT_COLOR = 0xFFFF98BE;
-    private static final int TO_SHRINK_HINT_COLOR = 0xFFFF98BE;
-    private static final int TO_EXPAND_HINT_COLOR_BG_PRESSED = 0x55999999;
-    private static final int TO_SHRINK_HINT_COLOR_BG_PRESSED = 0x55999999;
-    private static final boolean SHOW_TO_EXPAND_HINT = true;
-    private static final boolean SHOW_TO_SHRINK_HINT = true;
 
     private String mEllipsisHint;
     private String mGapToExpandHint = GAP_TO_EXPAND_HINT;
-    private String mGapToShrinkHint = GAP_TO_SHRINK_HINT;
-    private boolean mShowToExpandHint = SHOW_TO_EXPAND_HINT;
-    private boolean mShowToShrinkHint = SHOW_TO_SHRINK_HINT;
     private int mMaxLinesOnShrink = MAX_LINES_ON_SHRINK;
-    private int mToExpandHintColor = TO_EXPAND_HINT_COLOR;
-    private int mToShrinkHintColor = TO_SHRINK_HINT_COLOR;
-    private int mToExpandHintColorBgPressed = TO_EXPAND_HINT_COLOR_BG_PRESSED;
-    private int mToShrinkHintColorBgPressed = TO_SHRINK_HINT_COLOR_BG_PRESSED;
 
     private TextView.BufferType mBufferType = TextView.BufferType.NORMAL;
     private TextPaint mTextPaint;
@@ -96,22 +82,8 @@ public class ElipsisArrowTextView extends AppCompatTextView {
                 mMaxLinesOnShrink = a.getInteger(attr, MAX_LINES_ON_SHRINK);
             } else if (attr == R.styleable.ElipsisArrowTextView_arr_EllipsisHint) {
                 mEllipsisHint = a.getString(attr);
-            } else if (attr == R.styleable.ElipsisArrowTextView_arr_ToExpandHintShow) {
-                mShowToExpandHint = a.getBoolean(attr, SHOW_TO_EXPAND_HINT);
-            } else if (attr == R.styleable.ElipsisArrowTextView_arr_ToShrinkHintShow) {
-                mShowToShrinkHint = a.getBoolean(attr, SHOW_TO_SHRINK_HINT);
-            } else if (attr == R.styleable.ElipsisArrowTextView_arr_ToExpandHintColor) {
-                mToExpandHintColor = a.getInteger(attr, TO_EXPAND_HINT_COLOR);
-            } else if (attr == R.styleable.ElipsisArrowTextView_arr_ToShrinkHintColor) {
-                mToShrinkHintColor = a.getInteger(attr, TO_SHRINK_HINT_COLOR);
-            } else if (attr == R.styleable.ElipsisArrowTextView_arr_ToExpandHintColorBgPressed) {
-                mToExpandHintColorBgPressed = a.getInteger(attr, TO_EXPAND_HINT_COLOR_BG_PRESSED);
-            } else if (attr == R.styleable.ElipsisArrowTextView_arr_ToShrinkHintColorBgPressed) {
-                mToShrinkHintColorBgPressed = a.getInteger(attr, TO_SHRINK_HINT_COLOR_BG_PRESSED);
             } else if (attr == R.styleable.ElipsisArrowTextView_arr_GapToExpandHint) {
                 mGapToExpandHint = a.getString(attr);
-            } else if (attr == R.styleable.ElipsisArrowTextView_arr_GapToShrinkHint) {
-                mGapToShrinkHint = a.getString(attr);
             }
         }
         a.recycle();
@@ -198,7 +170,7 @@ public class ElipsisArrowTextView extends AppCompatTextView {
         int indexStart = getValidLayout().getLineStart(mMaxLinesOnShrink - 1);
         int indexEndTrimmed = indexEnd
                 - getLengthOfString(mEllipsisHint)
-                - (mShowToExpandHint ? getLengthOfString(mGapToExpandHint) : 0);
+                - getLengthOfString(mGapToExpandHint);
 
         if (indexEndTrimmed <= indexStart) {
             indexEndTrimmed = indexEnd;
@@ -207,7 +179,7 @@ public class ElipsisArrowTextView extends AppCompatTextView {
         int remainWidth = getValidLayout().getWidth() -
                 (int) (mTextPaint.measureText(mOrigText.subSequence(indexStart, indexEndTrimmed).toString()) + 0.5) - bitmap1.getWidth();
         float widthTailReplaced = mTextPaint.measureText(getContentOfString(mEllipsisHint)
-                + (mShowToExpandHint ? (getContentOfString(mGapToExpandHint)) : ""));
+                + getContentOfString(mGapToExpandHint));
 
         int indexEndTrimmedRevised = indexEndTrimmed;
         if (remainWidth > widthTailReplaced) {
@@ -242,21 +214,19 @@ public class ElipsisArrowTextView extends AppCompatTextView {
 
         ssbShrink.append(mEllipsisHint);
 
-        if (mShowToExpandHint) {
-
-            if (issetSpecialColor) {
-                int lenth = ssbShrink.length();
-                if (specialColorLenth <= lenth) {
-                    lenth = specialColorLenth;
-                }
-                ssbShrink.setSpan(colorSpan, specialColorStart, lenth, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        if (issetSpecialColor) {
+            int lenth = ssbShrink.length();
+            if (specialColorLenth <= lenth) {
+                lenth = specialColorLenth;
             }
-
-            ssbShrink.append(getContentOfString(mGapToExpandHint));
-
-            ssbShrink.append("+");
-            ssbShrink.setSpan(imgSpan1, ssbShrink.length() - 1, ssbShrink.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            ssbShrink.setSpan(colorSpan, specialColorStart, lenth, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
+
+        ssbShrink.append(getContentOfString(mGapToExpandHint));
+
+        ssbShrink.append("+");
+        ssbShrink.setSpan(imgSpan1, ssbShrink.length() - 1, ssbShrink.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
         return ssbShrink;
     }
 
